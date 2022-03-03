@@ -63,7 +63,11 @@ func make_color_bomb():
 
 func die():
 	dying = true
+	var sound = get_node_or_null("/root/Game/Sounds/Ping")
+	if sound != null:
+		sound.playing = true
 	Global.update_goals(piece)
+	
 
 
 func constrain(xy):
@@ -71,6 +75,8 @@ func constrain(xy):
 	if Grid == null:
 		return xy
 	else:
+		$Fire.show()
+		$Timer.start()
 		var temp = xy
 		var tptg = Grid.pixel_to_grid(temp.x,temp.y)
 		tptg.x = clamp(tptg.x,0,Grid.width-1)
@@ -91,3 +97,7 @@ func constrain(xy):
 			var max_x = Grid.grid_to_pixel(clamp(grid.x+1,grid.x,Grid.width-1), grid.y)
 			temp.x = clamp(temp.x,min_x.x,max_x.x)
 		return temp
+
+
+func _on_Timer_timeout():
+	$Fire.hide()

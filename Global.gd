@@ -1,5 +1,6 @@
 extends Node
 
+var camera = null
 var change_level = false
 var current_level = 0
 var levels = [
@@ -7,19 +8,19 @@ var levels = [
 		"unlocked": true,
 		"high score": 0,
 		"stars unlocked": 0,
-		"moves":20,
-		"goal": [{ "piece":"Red", "max":5, "count":0 }],
+		"moves":10,
+		"goal": [{ "piece":"Red", "max":20, "count":0 }],
 		"level": "Level 1",
-		"instructions": "Match 5 red tiles"
+		"instructions": "Match 20 red tiles"
 	}
 	,{
 		"unlocked": true,
 		"high score": 0,
 		"stars unlocked": 0,
 		"moves":20,
-		"goal": [{ "piece":"Red", "max":5, "count":0 },{ "piece":"Blue", "max":5, "count":0 }],
+		"goal": [{ "piece":"Red", "max":15, "count":0 },{ "piece":"Blue", "max":15, "count":0 }],
 		"level": "Level 2",
-		"instructions": "Match 5 red tiles and 5 blue tiles"
+		"instructions": "Match 15 red tiles and 15 blue tiles"
 	}
 ]
 
@@ -64,6 +65,10 @@ func _unhandled_input(event):
 func change_score(s):
 	score += s
 	emit_signal("changed")
+	if camera == null:
+		camera = get_node_or_null("/root/Game/Camera")
+	if camera != null:
+		camera.add_trauma(s/20.0)
 
 func change_moves(m):
 	moves += m

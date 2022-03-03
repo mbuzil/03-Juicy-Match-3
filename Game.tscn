@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Grid/grid.gd" type="Script" id=1]
 [ext_resource path="res://Grid/Game.gd" type="Script" id=2]
 [ext_resource path="res://UI/HUD.gd" type="Script" id=3]
 [ext_resource path="res://UI/Level.gd" type="Script" id=4]
 [ext_resource path="res://UI/Goals.gd" type="Script" id=5]
+[ext_resource path="res://Assets/background_game.png" type="Texture" id=6]
+[ext_resource path="res://Assets/coin.png" type="Texture" id=7]
+[ext_resource path="res://Assets/fly-away-mountaineer-main-version-02-11-7638.mp3" type="AudioStream" id=8]
+[ext_resource path="res://Assets/mixkit-retro-arcade-casino-notification-211.wav" type="AudioStream" id=9]
+[ext_resource path="res://Camera.gd" type="Script" id=10]
 
 [node name="Game" type="Node2D"]
 process_priority = 1
@@ -12,6 +17,16 @@ script = ExtResource( 2 )
 width = 4
 height = 6
 level = 1
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 288, 512.5 )
+scale = Vector2( 0.5625, 0.999023 )
+texture = ExtResource( 6 )
+
+[node name="Coin" type="Sprite" parent="."]
+position = Vector2( 55.595, 14.17 )
+scale = Vector2( 0.175781, 0.144531 )
+texture = ExtResource( 7 )
 
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource( 1 )
@@ -158,6 +173,21 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -9.614
+autoplay = true
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Ping" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 9 )
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 10 )
 
 [connection signal="set_dimensions" from="." to="Grid" method="_on_Game_set_dimensions"]
 [connection signal="timeout" from="DestroyTimer" to="Grid" method="_on_DestroyTimer_timeout"]
